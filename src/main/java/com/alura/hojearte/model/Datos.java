@@ -1,2 +1,11 @@
-package com.alura.hojearte.model;public record Datos() {
+package com.alura.hojearte.model;
+
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.util.List;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public record Datos(
+        @JsonAlias("results") List<DatosLibro> resultados) {
 }
