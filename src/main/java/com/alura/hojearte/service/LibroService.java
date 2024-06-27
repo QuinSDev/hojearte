@@ -54,4 +54,8 @@ public class LibroService {
     public List<Libro> listarLibrosPorIdiomas(Idioma idiomaSeleccionado) {
         return libroRepository.listarLibrosPorIdioma(idiomaSeleccionado);
     }
+
+    public List<Autor> listarAutoresRegistrados() {
+        return autorRepository.findAll();
+    }
 }
