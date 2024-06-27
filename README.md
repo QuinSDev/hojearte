@@ -13,8 +13,7 @@ en la base de datos, listar autores, consultar autores vivos en un año determin
 Para poder utilizar la aplicación de hojearte se debe de tener instalado el <strong>[JDK Java 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
 </strong>, y un IDE de su preferencia <strong>([Intellij Idea](https://www.jetbrains.com/idea/download/?section=windows), [Netbeans](https://netbeans.apache.org/front/main/download/))</strong>
 <br><br>
-Luego de haber instalado Java 17 y el IDE continue con la descarga del proyecto [Aquí](https://github.com/user-attachments/files/16007520/hojearte.zip)
-) o haga un git clone del repositorio:
+Luego de haber instalado Java 17 y el IDE continue con la descarga del proyecto [Aquí](https://github.com/user-attachments/files/16007520/hojearte.zip) o haga un git clone del repositorio:
 
 ```sh
 git clone https://github.com/QuinSDev/hojearte.git
