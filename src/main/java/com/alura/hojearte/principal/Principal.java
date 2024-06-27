@@ -10,6 +10,7 @@ import com.alura.hojearte.service.LibroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -58,6 +59,7 @@ public class Principal {
                     buscarLibroPorTitulo();
                     break;
                 case 2:
+                    listarLibrosRegistrados();
                     break;
                 case 3:
                     break;
@@ -131,5 +133,18 @@ public class Principal {
         } else {
             System.out.println("No se encontró el libro... Intenta con otro");
         }
+    }
+
+    private void listarLibrosRegistrados() {
+        List<Libro> listaDeLibros = libroService.listarLibrosRegistrados();
+        listaDeLibros.forEach(l -> System.out.println("""
+                     \n-------------------------------------------------
+                                           Libro                                      
+                     -------------------------------------------------""" +
+                "\n    Titulo: " + l.getTitulo() +
+                "\n    Autor: " + l.getAutor().getNombre() +
+                "\n    Idioma: " + l.getIdioma().getIdiomaOmdb() +
+                "\n    Número de descargas: " + l.getNumeroDeDescargas() +
+                "\n-------------------------------------------------\n"));
     }
 }
