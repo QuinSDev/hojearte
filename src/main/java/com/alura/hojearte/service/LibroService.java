@@ -58,4 +58,8 @@ public class LibroService {
     public List<Autor> listarAutoresRegistrados() {
         return autorRepository.findAll();
     }
+
+    public List<Autor> listarAutoresPorAnio(Integer anioIngresado) {
+        return autorRepository.listarAutoresPorAño(anioIngresado);
+    }
 }
