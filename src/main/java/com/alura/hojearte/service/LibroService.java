@@ -9,6 +9,7 @@ import com.alura.hojearte.repository.LibroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,5 +48,9 @@ public class LibroService {
         libro.setAutor(autor);
 
         return libroRepository.save(libro);
+    }
+
+    public List<Libro> listarLibrosRegistrados() {
+        return libroRepository.findAll();
     }
 }
