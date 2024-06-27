@@ -24,6 +24,9 @@ public class Autor {
         this.fechaDeFallecimiento = datosAutor.fechaDeFallecimiento();
     }
 
+    public Autor() {
+    }
+
     public Long getId() {
         return id;
     }
