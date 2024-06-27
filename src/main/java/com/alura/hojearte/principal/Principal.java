@@ -62,6 +62,7 @@ public class Principal {
                     listarLibrosPorIdioma();
                     break;
                 case 4:
+                    listarAutoresRegistrados();
                     break;
                 case 5:
                     break;
@@ -181,4 +182,22 @@ public class Principal {
             System.out.println("Selecciona un idioma válido.");
         }
     }
+
+    private void listarAutoresRegistrados() {
+        List<Autor> autoresRegistrados = libroService.listarAutoresRegistrados();
+        if (autoresRegistrados.isEmpty()) {
+            System.out.println("No hay autores registrados en la base de datos.");
+        } else {
+            autoresRegistrados.forEach(a -> System.out.println("""
+                     \n-------------------------------------------------
+                                           Autor                                      
+                     -------------------------------------------------""" +
+                    "\n    Nombre: " + a.getNombre() +
+                    "\n    Fecha de nacimiento: " + a.getFechaDeNacimiento() +
+                    "\n    Fecha de fallecimiento: " + a.getFechaDeFallecimiento() +
+                    "\n    Libros: " + a.getLibros() +
+                    "\n-------------------------------------------------\n"));
+        }
+    }
+
 }
