@@ -7,6 +7,7 @@ import com.alura.hojearte.service.LibroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -65,6 +66,7 @@ public class Principal {
                     listarAutoresRegistrados();
                     break;
                 case 5:
+                    listarAutoresPorAñoDeterminador();
                     break;
                 case 0:
                     System.out.println("Saliendo de Hojearte...");
@@ -197,6 +199,34 @@ public class Principal {
                     "\n    Fecha de fallecimiento: " + a.getFechaDeFallecimiento() +
                     "\n    Libros: " + a.getLibros() +
                     "\n-------------------------------------------------\n"));
+        }
+    }
+
+    private void listarAutoresPorAñoDeterminador() {
+        System.out.print("Ingrese el año para buscar autor(es) vivos en ese año: ");
+        try {
+            Integer anioIngresado = teclado.nextInt();
+            teclado.nextLine();
+            List<Autor> autoresPorAnio = libroService.listarAutoresPorAnio(anioIngresado);
+            if (!autoresPorAnio.isEmpty()) {
+                autoresPorAnio.forEach(a -> System.out.println("""
+                     \n-------------------------------------------------
+                                           Autor                                      
+                     -------------------------------------------------""" +
+                        "\n    Nombre: " + a.getNombre() +
+                        "\n    Fecha de nacimiento: " + a.getFechaDeNacimiento() +
+                        "\n    Fecha de fallecimiento: " + a.getFechaDeFallecimiento() +
+                        "\n    Libros: " + a.getLibros() +
+                        "\n-------------------------------------------------\n"));
+            } else {
+                System.out.println("No se encontraron autores vivos en la base de datos en ese año.");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Introduce un año válido.");
+        } catch (InputMismatchException e) {
+            System.out.println("Ingresa un año de 4 cifras.");
+        } catch (Exception e) {
+            System.out.println("Ocurrió un error: " + e.getMessage());
         }
     }
 
