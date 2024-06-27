@@ -1,20 +1,35 @@
 package com.alura.hojearte.principal;
 
+import com.alura.hojearte.model.Autor;
 import com.alura.hojearte.model.Datos;
 import com.alura.hojearte.model.DatosLibro;
+import com.alura.hojearte.model.Libro;
 import com.alura.hojearte.service.ConsumoAPI;
 import com.alura.hojearte.service.ConvierteDatos;
+import com.alura.hojearte.service.LibroService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+@Component
 public class Principal {
 
     private Scanner teclado = new Scanner(System.in);
     private ConsumoAPI consumoAPI = new ConsumoAPI();
     private static final String URL_BASE = "https://gutendex.com/books/";
     private ConvierteDatos convierteDatos = new ConvierteDatos();
+    @Autowired
+    private LibroService libroService;
+
+    public Principal(LibroService libroService) {
+        this.libroService = libroService;
+    }
+
+    public Principal() {
+    }
 
     public void mostrarElMenu() {
         var opcion = -1;
@@ -33,7 +48,7 @@ public class Principal {
                     |   0. Salir                                        |
                     -----------------------------------------------------  
                     """;
-            System.out.println(menuMensaje);
+            System.out.println("\n"+menuMensaje);
             System.out.print("Elija una opción: ");
             opcion = teclado.nextInt();
             teclado.nextLine();
@@ -83,6 +98,38 @@ public class Principal {
                     "\n    Idioma: " + libroBuscado.get().idiomas() +
                     "\n    Número de descargas: " + libroBuscado.get().numeroDeDescargas() +
                     "\n-------------------------------------------------\n");
+
+            try {
+                DatosLibro libroEncontrado = libroBuscado.get();
+                Optional<Libro> libroExistente = libroService.verificarLibroExistenteEnBD(libroEncontrado.titulo());
+
+                if (libroExistente.isPresent()) {
+                    System.out.println("El libro '" + libroEncontrado.titulo() + "' ya se encuentra registrado en" +
+                            " la base de datos.");
+                } else {
+                    Optional<Autor> autorExistente = libroService.verificarAutorExistenteEnBD(libroEncontrado.autor()
+                            .stream().map(a -> a.nombre())
+                            .collect(Collectors.joining()));
+
+                    Autor autor = null;
+                    if (autorExistente.isPresent()) {
+                        System.out.println("El autor '" + autorExistente.get().getNombre() + "' ya esta registrado en" +
+                                " la base de datos.");
+                    } else {
+                        autor = libroService.guardarAutor(libroEncontrado);
+                    }
+
+                    Libro libro = new Libro(libroEncontrado);
+                    libro.setAutor(autor);
+                    libro = libroService.guardarLibroConElAutor(libroEncontrado);
+
+                    System.out.println("Se guardo el libro: " + libro.getTitulo());
+                }
+            } catch (Exception e) {
+                System.out.println("Ha ocurrido un error: " + e.getMessage());
+            }
+        } else {
+            System.out.println("No se encontró el libro... Intenta con otro");
         }
     }
 }
