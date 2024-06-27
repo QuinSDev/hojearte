@@ -1,9 +1,6 @@
 package com.alura.hojearte.principal;
 
-import com.alura.hojearte.model.Autor;
-import com.alura.hojearte.model.Datos;
-import com.alura.hojearte.model.DatosLibro;
-import com.alura.hojearte.model.Libro;
+import com.alura.hojearte.model.*;
 import com.alura.hojearte.service.ConsumoAPI;
 import com.alura.hojearte.service.ConvierteDatos;
 import com.alura.hojearte.service.LibroService;
@@ -40,7 +37,7 @@ public class Principal {
                     |               Bienvenido a Hojearte               |
                     -----------------------------------------------------
                     |                   Menú de opciones                |
-                    ----------------------------------------------------
+                    -----------------------------------------------------
                     |   1. Buscar libro por titulo                      |
                     |   2. Listar libros registrados                    |
                     |   3. Listar libros por idioma                     |
@@ -62,6 +59,7 @@ public class Principal {
                     listarLibrosRegistrados();
                     break;
                 case 3:
+                    listarLibrosPorIdioma();
                     break;
                 case 4:
                     break;
@@ -146,5 +144,41 @@ public class Principal {
                 "\n    Idioma: " + l.getIdioma().getIdiomaOmdb() +
                 "\n    Número de descargas: " + l.getNumeroDeDescargas() +
                 "\n-------------------------------------------------\n"));
+    }
+
+    private void listarLibrosPorIdioma() {
+        String menuIdiomas = """
+                    -------------------------------
+                    |       Menú de Idiomas       |
+                    -------------------------------
+                    |       en - Inglés           |
+                    |       es - Español          |
+                    |       fr - Francés          |
+                    |       pt - Portugués        |
+                    -------------------------------
+                """;
+        System.out.println("\n" + menuIdiomas);
+        System.out.print("Escribe el idioma que deseas: ");
+        String idiomaIngresado = teclado.nextLine();
+        if (idiomaIngresado.equalsIgnoreCase("es") || idiomaIngresado.equalsIgnoreCase("en")
+                || idiomaIngresado.equalsIgnoreCase("fr") || idiomaIngresado.equalsIgnoreCase("pt")) {
+            Idioma idiomaSeleccionado = Idioma.fromString(idiomaIngresado);
+            List<Libro> librosPorIdioma = libroService.listarLibrosPorIdiomas(idiomaSeleccionado);
+            if (librosPorIdioma.isEmpty()) {
+                System.out.println("No se encuentra libros por ese idioma registrados en la base de datos.");
+            } else {
+                librosPorIdioma.forEach(l -> System.out.println("""
+                     \n-------------------------------------------------
+                                           Libro                                      
+                     -------------------------------------------------""" +
+                        "\n    Titulo: " + l.getTitulo() +
+                        "\n    Autor: " + l.getAutor().getNombre() +
+                        "\n    Idioma: " + l.getIdioma().getIdiomaOmdb() +
+                        "\n    Número de descargas: " + l.getNumeroDeDescargas() +
+                        "\n-------------------------------------------------\n"));
+            }
+        } else {
+            System.out.println("Selecciona un idioma válido.");
+        }
     }
 }
