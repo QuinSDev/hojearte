@@ -1,9 +1,6 @@
 package com.alura.hojearte.service;
 
-import com.alura.hojearte.model.Autor;
-import com.alura.hojearte.model.DatosAutor;
-import com.alura.hojearte.model.DatosLibro;
-import com.alura.hojearte.model.Libro;
+import com.alura.hojearte.model.*;
 import com.alura.hojearte.repository.AutorRepository;
 import com.alura.hojearte.repository.LibroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,5 +49,9 @@ public class LibroService {
 
     public List<Libro> listarLibrosRegistrados() {
         return libroRepository.findAll();
+    }
+
+    public List<Libro> listarLibrosPorIdiomas(Idioma idiomaSeleccionado) {
+        return libroRepository.listarLibrosPorIdioma(idiomaSeleccionado);
     }
 }
