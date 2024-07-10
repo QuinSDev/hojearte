@@ -49,31 +49,38 @@ public class Principal {
                     """;
             System.out.println("\n"+menuMensaje);
             System.out.print("Elija una opción: ");
-            opcion = teclado.nextInt();
-            teclado.nextLine();
 
-            switch (opcion) {
-                case 1:
-                    buscarLibroPorTitulo();
-                    break;
-                case 2:
-                    listarLibrosRegistrados();
-                    break;
-                case 3:
-                    listarLibrosPorIdioma();
-                    break;
-                case 4:
-                    listarAutoresRegistrados();
-                    break;
-                case 5:
-                    listarAutoresPorAñoDeterminador();
-                    break;
-                case 0:
-                    System.out.println("Saliendo de Hojearte...");
-                    break;
-                default:
-                    System.out.println("Opción incorrecta");
+            try {
+                opcion = teclado.nextInt();
+                teclado.nextLine();
+
+                switch (opcion) {
+                    case 1:
+                        buscarLibroPorTitulo();
+                        break;
+                    case 2:
+                        listarLibrosRegistrados();
+                        break;
+                    case 3:
+                        listarLibrosPorIdioma();
+                        break;
+                    case 4:
+                        listarAutoresRegistrados();
+                        break;
+                    case 5:
+                        listarAutoresPorAñoDeterminador();
+                        break;
+                    case 0:
+                        System.out.println("Saliendo de Hojearte...");
+                        break;
+                    default:
+                        System.out.println("Opción incorrecta");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Por favor, ingresa un número válido.");
+                teclado.nextLine();
             }
+
         }
     }
 
